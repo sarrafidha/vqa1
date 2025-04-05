@@ -1,0 +1,2 @@
+Question: Please determine how many roads and buildings have changed?
+Answer: There is 1 new road and 10 new houses. 8 houses above the road can be clearly seen, and the other two are located in the lower left corner and below the road and can only be seen a little bit.

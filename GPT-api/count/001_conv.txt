@@ -1,0 +1,2 @@
+Question: Please determine how many roads and buildings have changed?
+Answer: No new roads were built, but 7 new houses were built. 5 are at the bottom and can be easily seen, 1 is at the top, and 1 is at the upper left corner and can only be seen a little bit.

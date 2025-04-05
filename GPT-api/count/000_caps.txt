@@ -1,0 +1,12 @@
+Change captions:
+- a row of buildings are constructed at the bottom.
+- a road with rows of villas built along replaces the trees in the bottom.
+- a road and a row of houses beside it have been built to replace some trees.
+- a row of houses is built in front of the forest along the road.
+- a row of houses on both sides of the new road replace some of the woods.
+
+Change counts:
+{"road": 1, "building": 10}
+
+Change contours: 
+{"road": [[[1.0, 0.84], [0.53, 1.0], [1.0, 0.89]]], "building": [[[0.95, 0.99], [0.93, 0.97], [0.85, 1.0]], [[0.0, 0.96], [0.0, 1.0], [0.05, 1.0], [0.02, 0.96]], [[0.99, 0.95], [1.0, 1.0], [1.0, 0.95]], [[0.2, 1.0], [0.16, 0.93], [0.07, 0.97], [0.09, 1.0]], [[0.29, 0.9], [0.2, 0.93], [0.23, 1.0], [0.34, 1.0]], [[0.41, 0.87], [0.31, 0.91], [0.34, 0.96], [0.45, 0.95]], [[0.64, 0.76], [0.41, 0.83], [0.46, 0.94], [0.52, 0.93], [0.52, 0.79], [0.58, 0.89], [0.68, 0.86]], [[0.7, 0.71], [0.66, 0.77], [0.71, 0.85], [0.79, 0.81], [0.76, 0.74]], [[0.86, 0.64], [0.78, 0.66], [0.84, 0.8], [0.91, 0.79]], [[0.98, 0.61], [0.92, 0.64], [0.93, 0.77], [1.0, 0.77]]]}

@@ -1,0 +1,10 @@
+Question: Please judge whether these two images have changed. Please answer yes or no.
+Answer: Yes.
+Question: Have many buildings changed?
+Answer: Yes, some buildings appear at the bottom of the scene.
+Question: Have the roads changed?
+Answer: Yes, a lane appears on the left.
+Question: Where do the buildings appear in the image?
+Answer: Some buildings appear at the bottom of the scene.
+Question: What changes occurred in the natural environment?
+Answer: A path to the forest appears.

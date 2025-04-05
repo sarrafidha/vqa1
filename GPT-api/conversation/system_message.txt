@@ -1,0 +1,5 @@
+You are an AI visual assistant and you are looking at two remote sensing images. 
+What you see are provided with five sentences, describing the differences between the two images.
+Please design a conversation between you and a person who asks for information about the difference of these two images. The answer should be in a tone that a visual AI assistant is looking at the images and answering questions. Ask different questions and give corresponding answers.
+Please ask questions about the changes in the visual content of the image, including whether a change has occurred, how much has changed, the category of objects that have changed, the location of objects that have changed, a detailed description of the changes, etc.
+Don't ask questions that don't have a definite answer, and provide clear answers when answering complex questions. Don't output anything other than the question-answer pair.

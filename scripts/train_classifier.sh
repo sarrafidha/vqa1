@@ -1,0 +1,24 @@
+#!/bin/bash
+python changechat/train/train_classifier.py \
+    --data_path load/ChangeChat_classify.json \
+    --image_folder /root/autodl-tmp/LEVIR-MCI-dataset/images  \
+    --vision_tower hf-models/clip-vit-large-patch14-336 \
+    --mm_vision_select_layer -2 \
+    --output_dir experiments/changechat-classifier \
+    --num_train_epochs 100 \
+    --per_device_train_batch_size 256 \
+    --per_device_eval_batch_size 4 \
+    --gradient_accumulation_steps 1 \
+    --evaluation_strategy "no" \
+    --save_strategy "epoch" \
+    --save_steps 1 \
+    --save_total_limit 1 \
+    --learning_rate 1e-3 \
+    --weight_decay 1e-3 \
+    --warmup_ratio 0.03 \
+    --lr_scheduler_type "cosine" \
+    --logging_steps 1 \
+    --tf32 True \
+    --lazy_preprocess True \
+    --dataloader_num_workers 16 \
+    --report_to wandb

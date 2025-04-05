@@ -1,0 +1,6 @@
+Question: Please judge whether these two images have changed. Please answer yes or no.
+Answer: No.
+Question: Are there any changes to the building?
+Answer: No.
+Question: Could you please tell me how many roads have changed?
+Answer: No roads have changed.
