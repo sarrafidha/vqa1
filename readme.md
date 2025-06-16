@@ -90,7 +90,7 @@ Hardware Requirements:
 
     *   **LEVIR-CC:**  The original dataset for change captioning, comprising 10,077 pairs of bitemporal images.  Download instructions can be found at [LEVIR-CC Dataset](https://github.com/Chen-Yang-Liu/LEVIR-CC-Dataset).
     *   **LEVIR-MCI:**  Includes pixel-level change maps for more detailed change analysis. Download instructions can be found at [LEVIR-MCI Dataset](https://huggingface.co/datasets/lcybuaa/LEVIR-MCI/tree/main).
-    *   **ChangeChat-87k:**  Our custom dataset of 87,195 instructions.  We will provide a download link to this dataset here:  [Link to ChangeChat-87k Dataset].
+    *   **ChangeChat-87k:**  Our custom dataset of 87,195 instructions.  We will provide a download link to this dataset here:  [Link to ChangeChat-87k Dataset](https://github.com/hanlinwu/ChangeChat/blob/master/GPT-api/LEVIR-MCI-dataset/ChangeChat_instruct_gpt_87k.json).
   
         **ChangeChat-87k Details:** After downloading, the dataset directory should resemble the following structure (within `data/ChangeChat-87k`):
 
