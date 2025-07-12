@@ -36,6 +36,7 @@ from changechat.model import *
 from changechat.mm_utils import tokenizer_image_token
 from PIL import Image
 from torchvision import transforms
+from transformers import AutoImageProcessor
 
 RAND_AUG_F = transforms.Compose(
     [
@@ -628,7 +629,8 @@ class LazySupervisedDataset(Dataset):
     ):
         super(LazySupervisedDataset, self).__init__()
         list_data_dict = json.load(open(data_path, "r"))
-
+        if isinstance(list_data_dict, dict) and "question" in list_data_dict:
+            list_data_dict = list_data_dict["question"]
         rank0_print("Formatting inputs...Skip in lazy mode")
         self.tokenizer = tokenizer
         self.list_data_dict = list_data_dict
@@ -642,25 +644,17 @@ class LazySupervisedDataset(Dataset):
         if isinstance(i, int):
             sources = [sources]
         assert len(sources) == 1, "Don't know why it is wrapped to a list"  # FIXME
-        if "image" in sources[0]:
-            image_file = self.list_data_dict[i]["image"]
+        # --- Custom loader for im1/im2 ---
+        if "img_id" in sources[0]:
+            img_id = sources[0]["img_id"]
             image_folder = self.data_args.image_folder
             processor = self.data_args.image_processor
-
-            if isinstance(image_file, str):
-                image_file_list = [image_file]
-            elif isinstance(image_file, list):
-                image_file_list = image_file
-            else:
-                raise NotImplementedError
-
+            im1_path = os.path.join(image_folder, "im1", img_id)
+            im2_path = os.path.join(image_folder, "im2", img_id)
             imageList = []
-            for _image_file in image_file_list:
-                image = Image.open(
-                    (os.path.join(image_folder, _image_file)).strip()
-                ).convert("RGB")
+            for _image_file in [im1_path, im2_path]:
+                image = Image.open(_image_file).convert("RGB")
                 if self.data_args.image_aspect_ratio == "pad":
-
                     def expand2square(pil_img, background_color):
                         width, height = pil_img.size
                         if width == height:
@@ -677,7 +671,6 @@ class LazySupervisedDataset(Dataset):
                             )
                             result.paste(pil_img, ((height - width) // 2, 0))
                             return result
-
                     image = expand2square(
                         image, tuple(int(x * 255) for x in processor.image_mean)
                     )
@@ -690,7 +683,6 @@ class LazySupervisedDataset(Dataset):
                         return_tensors="pt",
                     )["pixel_values"][0]
                 else:
-                    # image = processor.preprocess(image, return_tensors='pt')['pixel_values'][0]
                     image = RAND_AUG_F(image)
                     image = processor.preprocess(
                         image,
@@ -700,30 +692,32 @@ class LazySupervisedDataset(Dataset):
                         return_tensors="pt",
                     )["pixel_values"][0]
                 imageList.append(image)
-
+            # Build a conversations field if not present
+            for e in sources:
+                if "conversations" not in e:
+                    e["conversations"] = [
+                        {"from": "human", "value": e["question"]},
+                        {"from": "gpt", "value": e["answer"]}
+                    ]
             sources = preprocess_multimodal(
                 copy.deepcopy([e["conversations"] for e in sources]), self.data_args
             )
         else:
             sources = copy.deepcopy([e["conversations"] for e in sources])
         data_dict = preprocess(
-            sources, self.tokenizer, has_image=("image" in self.list_data_dict[i])
+            sources, self.tokenizer, has_image=("img_id" in self.list_data_dict[i])
         )
         if isinstance(i, int):
             data_dict = dict(
                 input_ids=data_dict["input_ids"][0], labels=data_dict["labels"][0]
             )
-
         # image exist in the data
-        if "image" in self.list_data_dict[i]:
-            # 将多幅图像拼成一个Tensor
+        if "img_id" in self.list_data_dict[i]:
             data_dict["image"] = torch.stack(imageList, dim=0)  # (2, c, h, w)
         elif self.data_args.is_multimodal:
-            # image does not exist in the data, but the model is multimodal
             crop_size = self.data_args.image_processor.crop_size
             data_dict["image"] = torch.zeros(3, crop_size["height"], crop_size["width"])
-
-        # 如果有变化标签
+        # If there is a change label
         if "changeflag" in self.list_data_dict[i]:
             data_dict["change_labels"] = torch.tensor(
                 self.list_data_dict[i]["changeflag"]
@@ -792,6 +786,9 @@ def train():
         (ModelArguments, DataArguments, TrainingArguments)
     )
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    print('ModelArguments:', model_args)
+    print('DataArguments:', data_args)
+    print('TrainingArguments:', training_args)
     local_rank = training_args.local_rank
     compute_dtype = (
         torch.float16
@@ -960,6 +957,13 @@ def train():
                 if hasattr(module, "weight"):
                     if training_args.bf16 and module.weight.dtype == torch.float32:
                         module = module.to(torch.bfloat16)
+
+    # Ensure image_processor is set
+    if not hasattr(data_args, "image_processor") or data_args.image_processor is None:
+        data_args.image_processor = AutoImageProcessor.from_pretrained("openai/clip-vit-base-patch16")
+
+    if not hasattr(data_args, "mm_use_im_start_end"):
+        data_args.mm_use_im_start_end = False
 
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
     trainer = ChangeChatTrainer(

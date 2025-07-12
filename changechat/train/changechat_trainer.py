@@ -172,21 +172,22 @@ class LengthGroupedSampler(Sampler):
 
 class ChangeChatTrainer(Trainer):
 
-    def _get_train_sampler(self) -> Optional[torch.utils.data.Sampler]:
-        if self.train_dataset is None or not has_length(self.train_dataset):
+    def _get_train_sampler(self, train_dataset=None, **kwargs) -> Optional[torch.utils.data.Sampler]:
+        if train_dataset is None:
+            train_dataset = self.train_dataset
+        if train_dataset is None or not has_length(train_dataset):
             return None
 
         if self.args.group_by_modality_length:
-            lengths = self.train_dataset.modality_lengths
+            lengths = train_dataset.modality_lengths
             return LengthGroupedSampler(
-                # self.args.train_batch_size * self.args.gradient_accumulation_steps, # TODO: seems that we should not have gradient_accumulation_steps
                 self.args.train_batch_size,
                 world_size=self.args.world_size,
                 lengths=lengths,
                 group_by_modality=True,
             )
         else:
-            return super()._get_train_sampler()
+            return super()._get_train_sampler(train_dataset)
 
     def _save_checkpoint(self, model, trial, metrics=None):
         if getattr(self.args, "tune_mm_mlp_adapter", False):
