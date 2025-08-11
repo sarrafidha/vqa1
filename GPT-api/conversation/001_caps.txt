@@ -1,5 +1,0 @@
-- a lane appears on the left and several houses are built at the bottom.
-- some part of a building appears on the bareland in the bottom.
-- some buildings appear at the bottom of the scene.
-- a house appears at the bottom of the scene.
-- a building and a path to forest appear.
