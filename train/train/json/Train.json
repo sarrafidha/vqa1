@@ -1,0 +1,74 @@
+{
+    "question": [
+        {
+            "id": 76538,
+            "img_id": "04661.png",
+            "type": "change_ratio",
+            "question": "What is the percentage of unchanged areas?",
+            "answer": "20_to_30"
+        },
+        {
+            "id": 134039,
+            "img_id": "12414.png",
+            "type": "change_ratio_types",
+            "question": "How much has the non-vegetated ground surface changed in the post-event image?",
+            "answer": "0_to_10"
+        },
+        {
+            "id": 63929,
+            "img_id": "03850.png",
+            "type": "change_ratio",
+            "question": "What is the percentage of unchanged areas?",
+            "answer": "90_to_100"
+        },
+        {
+            "id": 58219,
+            "img_id": "03414.png",
+            "type": "change_to_what",
+            "question": "What did the non-vegetated ground surface mostly change to in the first image?",
+            "answer": "buildings"
+        },
+        {
+            "id": 20169,
+            "img_id": "01464.png",
+            "type": "change_or_not",
+            "question": "Did the areas of non-vegetated ground surface change?",
+            "answer": "yes"
+        },
+        {
+            "id": 37595,
+            "img_id": "02206.png",
+            "type": "change_or_not",
+            "question": "Has the playgrounds been altered in the post-event image?",
+            "answer": "no"
+        },
+        {
+            "id": 177124,
+            "img_id": "26071.png",
+            "type": "change_or_not",
+            "question": "Did the regions of non-vegetated ground surface undergo any changes in the second image?",
+            "answer": "no"
+        },
+        {
+            "id": 86985,
+            "img_id": "05664.png",
+            "type": "change_ratio",
+            "question": "What is the percentage of changed areas?",
+            "answer": "10_to_20"
+        },
+        {
+            "id": 164649,
+            "img_id": "25700.png",
+            "type": "change_or_not",
+            "question": "Has the non-vegetated ground surface been altered?",
+            "answer": "yes"
+        },
+        {
+            "id": 59736,
+            "img_id": "03474.png",
+            "type": "change_or_not",
+            "question": "Did the regions of water undergo any changes in the post-event image?",
+            "answer": "no"
+        }
+    ]
+}
